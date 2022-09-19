@@ -2,15 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>macbook Store</title>
+    <title>Macbook Store</title>
     <link rel="stylesheet" th:href="@{/styles.css}" />
   </head>
   
   <body>
     <h1>Design your macbook!</h1>
+<!--    <h2>Feelin' wealthy, aye!, <span th:text="${user.fullName}">NAME</span>?</h2>-->
     <img th:src="@{/images/img.png}"/>
-        
-    <form method="POST" th:object="${design}">
+
+    <form method="POST" th:action="@{/logout}" id="logoutForm">
+      <input type="submit" value="Logout"/>
+    </form>
+
+    <form th:method="POST" th:object="${design}" th:action="@{/design}" id="macbookForm">
 
     <span class="validationError"
           th:if="${#fields.hasErrors('ingredients')}" 
