@@ -10,7 +10,7 @@ import macbooks.data.IngredientRepository;
 
 @SpringBootApplication
 public class MacbookStoreApplication {
-//public class MacbookStoreApplication{
+
   public static void main(String[] args) {
     SpringApplication.run(MacbookStoreApplication.class, args);
   }

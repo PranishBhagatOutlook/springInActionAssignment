@@ -21,72 +21,50 @@ import macbooks.Ingredient.Type;
 import macbooks.Macbook;
 import macbooks.Order;
 import macbooks.data.IngredientRepository;
-import macbooks.data.MacbookRepository;
 
-//tag::injectingDesignRepository[]
-//tag::injectingIngredientRepository[]
+
 @Controller
 @RequestMapping("/design")
-//end::injectingIngredientRepository[]
 @SessionAttributes("order")
-//tag::injectingIngredientRepository[]
 public class DesignMacbookController {
 
   private final IngredientRepository ingredientRepo;
 
-  //end::injectingIngredientRepository[]
-  private MacbookRepository macbookRepo;
-
-  //end::injectingDesignRepository[]
-  /*
-  //tag::injectingIngredientRepository[]
-  public DesignMacbookController(IngredientRepository ingredientRepo) {
-    this.ingredientRepo = ingredientRepo;
-  }
-  //end::injectingIngredientRepository[]
-   */
-  //tag::injectingDesignRepository[]
-
   @Autowired
   public DesignMacbookController(
-        IngredientRepository ingredientRepo,
-        MacbookRepository macbookRepo) {
+        IngredientRepository ingredientRepo) {
     this.ingredientRepo = ingredientRepo;
-    this.macbookRepo = macbookRepo;
   }
-
-  @ModelAttribute(name = "order")
-  public Order order() {
-    return new Order();
-  }
-
-  @ModelAttribute(name = "design")
-  public Macbook design() {
-    return new Macbook();
-  }
-
-  //end::injectingDesignRepository[]
-
-  //tag::injectingIngredientRepository[]
-
-  @GetMapping
-  public String showDesignForm(Model model) {
+  @ModelAttribute
+  public void addIngredientsToModel(Model model) {
     List<Ingredient> ingredients = new ArrayList<>();
     ingredientRepo.findAll().forEach(i -> ingredients.add(i));
 
     Type[] types = Ingredient.Type.values();
     for (Type type : types) {
       model.addAttribute(type.toString().toLowerCase(),
-          filterByType(ingredients, type));
+              filterByType(ingredients, type));
     }
+  }
 
+  @ModelAttribute(name="order")
+  public Order order() {
+    return new Order();
+  }
+
+  @ModelAttribute(name = "macbook")
+  public Macbook macbook() {
+    return new Macbook();
+  }
+
+  @GetMapping
+  public String showDesignForm() {
     return "design";
   }
-  //end::injectingIngredientRepository[]
 
-//tag::injectingDesignRepository[]
+
   @PostMapping
-  public String processDesign(
+  public String processMacbook(
           @Valid Macbook macbook, Errors errors,
           @ModelAttribute Order order) {
 
@@ -94,34 +72,18 @@ public class DesignMacbookController {
       return "design";
     }
 
-    Macbook saved = macbookRepo.save(macbook);
-    order.addDesign(saved);
+    order.addMacbook(macbook);
 
     return "redirect:/orders/current";
   }
 
-//end::injectingDesignRepository[]
 
-  private List<Ingredient> filterByType(
-      List<Ingredient> ingredients, Type type) {
+  private Iterable<Ingredient> filterByType(
+          List<Ingredient> ingredients, Type type) {
     return ingredients
-              .stream()
-              .filter(x -> x.getType().equals(type))
-              .collect(Collectors.toList());
+            .stream()
+            .filter(x -> x.getType().equals(type))
+            .collect(Collectors.toList());
   }
-
-  /*
-  //tag::injectingDesignRepository[]
-  //tag::injectingIngredientRepository[]
-
-   ...
-  //end::injectingIngredientRepository[]
-  //end::injectingDesignRepository[]
-  */
-
-//tag::injectingDesignRepository[]
-//tag::injectingIngredientRepository[]
-
 }
-//end::injectingIngredientRepository[]
-//end::injectingDesignRepository[]
+

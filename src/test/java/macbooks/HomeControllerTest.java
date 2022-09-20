@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import macbooks.data.MacbookRepository;
 import macbooks.data.IngredientRepository;
 import macbooks.data.OrderRepository;
 

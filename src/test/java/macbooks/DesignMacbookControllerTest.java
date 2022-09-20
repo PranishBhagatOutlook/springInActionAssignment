@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import macbooks.Ingredient.Type;
 import macbooks.data.IngredientRepository;
 import macbooks.data.OrderRepository;
-import macbooks.data.MacbookRepository;
 import macbooks.web.DesignMacbookController;
 
 @RunWith(SpringRunner.class)

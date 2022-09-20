@@ -8,14 +8,11 @@
   
   <body>
     <h1>Design your macbook!</h1>
-<!--    <h2>Feelin' wealthy, aye!, <span th:text="${user.fullName}">NAME</span>?</h2>-->
     <img th:src="@{/images/img.png}"/>
 
-    <form method="POST" th:action="@{/logout}" id="logoutForm">
-      <input type="submit" value="Logout"/>
-    </form>
 
-    <form th:method="POST" th:object="${design}" th:action="@{/design}" id="macbookForm">
+
+    <form th:method="POST" th:object="${macbook}">
 
     <span class="validationError"
           th:if="${#fields.hasErrors('ingredients')}" 
